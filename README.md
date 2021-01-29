@@ -7,7 +7,7 @@ This is a REST API that, given a Pokemon name, returns its Shakespearean descrip
 
 Signature: `GET endpoint: /pokemon/<pokemon name>`
 
-Example: http://localhost:5000/pokemon/charizard
+Example: https://localhost:5000/pokemon/charizard
 
 Output:
 ```json
