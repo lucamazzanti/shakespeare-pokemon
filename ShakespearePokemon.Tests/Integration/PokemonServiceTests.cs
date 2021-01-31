@@ -4,11 +4,12 @@ using ShakespearePokemon.API.Services.Pokemon;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ShakespearePokemon.API.Services.Pokemon.Client;
+using ShakespearePokemon.Tests.Common.BaseTests;
+using ShakespearePokemon.Tests.Common.Builders;
 
 namespace ShakespearePokemon.Tests.Integration
 {
-    [Category("Integration")]
-    public class PokemonServiceTests
+    public class PokemonServiceTests : IntegrationTest
     {
         private HttpClient _httpClient;
         protected IPokemonClient Client;
@@ -29,13 +30,7 @@ namespace ShakespearePokemon.Tests.Integration
         [Test]
         public async Task GetPokemon_ReturnsDescrpition_GivenExistentName()
         {
-            var expected = new PokemonDescription
-            {
-                Name = "charizard",
-                Description = "Charizard flies around the sky in search of powerful opponents. " +
-                              "It breathes fire of such great heat that it melts anything. " +
-                              "However, it never turns its fiery breath on any opponent weaker than itself."
-            };
+            PokemonDescription expected = PokemonDescriptionBuilder.BuildCharizardDescription();
 
             var service = new PokemonService(Client);
 
@@ -48,13 +43,7 @@ namespace ShakespearePokemon.Tests.Integration
         [Test]
         public async Task GetPokemon_ReturnsDescrpition_GivenExistentNameWithDifferentCasing()
         {
-            var expected = new PokemonDescription
-            {
-                Name = "charizard",
-                Description = "Charizard flies around the sky in search of powerful opponents. " +
-                              "It breathes fire of such great heat that it melts anything. " +
-                              "However, it never turns its fiery breath on any opponent weaker than itself."
-            };
+            PokemonDescription expected = PokemonDescriptionBuilder.BuildCharizardDescription();
 
             var service = new PokemonService(Client);
 

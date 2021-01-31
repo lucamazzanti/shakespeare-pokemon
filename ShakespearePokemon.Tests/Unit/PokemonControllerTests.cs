@@ -6,10 +6,11 @@ using NUnit.Framework;
 using ShakespearePokemon.API.Controllers;
 using ShakespearePokemon.API.Models;
 using ShakespearePokemon.API.Services.ShakespearePokemon;
+using ShakespearePokemon.Tests.Common.BaseTests;
 
 namespace ShakespearePokemon.Tests.Unit
 {
-    public class PokemonControllerTests
+    public class PokemonControllerTests : UnitTest
     {
         [Test]
         public async Task GetPokemon_ReturnsOK_GivenExistentName()
@@ -17,6 +18,7 @@ namespace ShakespearePokemon.Tests.Unit
             // Arrange
             // the service returns a sample pokemon
             var serviceResult = new ShakespearePokemonDescription { Name = "charizard", Description = "sample description"};
+            
             var pokemonService = new Mock<IShakespearePokemonService>();
             pokemonService
                 .Setup(i => i.GetPokemonAsync(It.IsAny<string>()))

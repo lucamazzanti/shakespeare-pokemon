@@ -1,4 +1,4 @@
-﻿namespace ShakespearePokemon.Tests.Models
+﻿namespace ShakespearePokemon.Tests.Common.Models
 {
     public class GetPokemonResult
     {

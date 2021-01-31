@@ -2,14 +2,14 @@
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using ShakespearePokemon.API.Services.Pokemon;
 using ShakespearePokemon.API.Services.Pokemon.Client;
 using ShakespearePokemon.API.Services.Shakespeare;
-using ShakespearePokemon.Tests.Mocks;
+using ShakespearePokemon.Tests.Common.Bootstrap;
+using ShakespearePokemon.Tests.Common.Mocks;
 
-namespace ShakespearePokemon.Tests.BaseTests
+namespace ShakespearePokemon.Tests.Common.BaseTests
 {
-    public abstract class WebApiIntegrationTest
+    public abstract class WebApiIntegrationTest : IntegrationTest
     {
         private APIWebApplicationFactory _factory;
         protected HttpClient Client;

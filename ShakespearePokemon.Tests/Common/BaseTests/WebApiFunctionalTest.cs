@@ -1,9 +1,10 @@
-﻿using NUnit.Framework;
-using System.Net.Http;
+﻿using System.Net.Http;
+using NUnit.Framework;
+using ShakespearePokemon.Tests.Common.Bootstrap;
 
-namespace ShakespearePokemon.Tests.BaseTests
+namespace ShakespearePokemon.Tests.Common.BaseTests
 {
-    public abstract class WebApiFunctionalTest
+    public abstract class WebApiFunctionalTest : FunctionalTest
     {
         private APIWebApplicationFactory _factory;
         protected HttpClient Client;

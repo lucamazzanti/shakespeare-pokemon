@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using ShakespearePokemon.API.Services.Pokemon.Client;
+using ShakespearePokemon.Tests.Common.BaseTests;
 
 namespace ShakespearePokemon.Tests.Unit
 {
-    public class PokemonServiceTests
+    public class PokemonServiceTests : UnitTest
     {
         [Test]
         public void ExtractDescription_ReturnsEnglishDescription_GivenTwoLanguages()

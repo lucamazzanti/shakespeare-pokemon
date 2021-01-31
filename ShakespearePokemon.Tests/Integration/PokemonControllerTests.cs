@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
-using ShakespearePokemon.Tests.BaseTests;
-using ShakespearePokemon.Tests.Models;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using ShakespearePokemon.Tests.Common.BaseTests;
+using ShakespearePokemon.Tests.Common.Models;
 
 namespace ShakespearePokemon.Tests.Integration
 {

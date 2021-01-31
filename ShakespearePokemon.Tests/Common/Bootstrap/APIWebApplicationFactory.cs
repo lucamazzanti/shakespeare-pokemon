@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
-namespace ShakespearePokemon.Tests.BaseTests
+namespace ShakespearePokemon.Tests.Common.Bootstrap
 {
     public class APIWebApplicationFactory : WebApplicationFactory<API.Startup>
     {
