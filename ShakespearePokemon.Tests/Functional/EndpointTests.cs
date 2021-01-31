@@ -30,5 +30,12 @@ namespace ShakespearePokemon.Tests.Functional
             Assert.AreEqual(expectedJson.Name, contentJson.Name);
             Assert.AreEqual(expectedJson.Description, contentJson.Description);
         }
+
+        [Test]
+        public async Task GetPokemon_ReturnsNotFound_GivenNotFoundName()
+        {
+            HttpResponseMessage result = await Client.GetAsync("/pokemon/gandalf");
+            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        }
     }
 }

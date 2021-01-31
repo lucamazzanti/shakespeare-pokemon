@@ -43,5 +43,24 @@ namespace ShakespearePokemon.Tests.Integration
             Assert.AreEqual(expected.Name, result.Name);
             Assert.AreEqual(expected.Description, result.Description);
         }
+
+        [Test]
+        public async Task GetPokemon_ReturnsDescrpition_GivenExistentNameWithDifferentCasing()
+        {
+            var expected = new PokemonDescription
+            {
+                Name = "charizard",
+                Description = "Charizard flies around the sky in search of powerful opponents. " +
+                              "It breathes fire of such great heat that it melts anything. " +
+                              "However, it never turns its fiery breath on any opponent weaker than itself."
+            };
+
+            var service = new PokemonService(Client);
+
+            PokemonDescription result = await service.GetPokemonDescriptionAsync("cHaRiZaRd");
+
+            Assert.AreEqual(expected.Name, result.Name);
+            Assert.AreEqual(expected.Description, result.Description);
+        }
     }
 }

@@ -25,6 +25,20 @@ namespace ShakespearePokemon.Tests.Integration
         }
 
         [Test]
+        public async Task GetPokemon_ReturnsBadRequest_GivenEmptyName()
+        {
+            HttpResponseMessage result = await Client.GetAsync("/pokemon/%20%20%20%20%20");
+            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+        }
+
+        [Test]
+        public async Task GetPokemon_ReturnsBadRequest_GivenTooLongName()
+        {
+            HttpResponseMessage result = await Client.GetAsync("/pokemon/xxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+        }
+
+        [Test]
         public async Task GetPokemon_ReturnsShakespeareDescrpition_GivenExistentName()
         {
             var expectedJson = new GetPokemonResult

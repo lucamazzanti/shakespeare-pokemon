@@ -1,10 +1,13 @@
-﻿using ShakespearePokemon.API.Services.Pokemon.Contracts;
+﻿using System;
+using ShakespearePokemon.API.Services.Pokemon.Contracts;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Version = ShakespearePokemon.API.Services.Pokemon.Contracts.Version;
 
 namespace ShakespearePokemon.API.Services.Pokemon
 {
@@ -12,7 +15,11 @@ namespace ShakespearePokemon.API.Services.Pokemon
     {
         private readonly HttpClient _httpClient;
 
-        public string[] FilteredVersions { get; set; } = { "alpha-sapphire" };
+        public string[] FilteredVersions { get; set; } =
+        {
+            "red","blue","yellow","gold","silver","ruby",
+            "sapphire","diamond","pearl","omega-ruby","alpha-sapphire"
+        };
 
         public PokemonService(HttpClient httpClient)
         {
@@ -21,29 +28,62 @@ namespace ShakespearePokemon.API.Services.Pokemon
 
         public async Task<PokemonDescription> GetPokemonDescriptionAsync(string name)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"pokemon-species/{name}");
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
+            }
+ 
+            HttpResponseMessage response = await _httpClient.GetAsync($"pokemon-species/{name.ToLower()}");
 
-            response.EnsureSuccessStatusCode();
+            // "not found" result may be an hot-path, I avoid to throw it as an exception
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return null;
+                }
+                response.EnsureSuccessStatusCode();
+            }
 
             await using Stream responseStream = await response.Content.ReadAsStreamAsync();
 
-            PokemonSpecies result = await JsonSerializer.DeserializeAsync<PokemonSpecies>(responseStream) 
-                                    ?? new PokemonSpecies();
+            PokemonSpecies pokemonSpecies = await JsonSerializer.DeserializeAsync<PokemonSpecies>(responseStream) 
+                                            ?? new PokemonSpecies();
 
-            string latestEnglishDescription = result.FlavorTextEntries
-                .Where(i => i.Language.Name == "en")
-                .Where(i => FilteredVersions?.Length > 0 && FilteredVersions.Contains(i.Version.Name))
-                .OrderByDescending(i => i.Version.Url)
-                .Select(i => new { i.FlavorText, i.Version.Name })
-                .FirstOrDefault()?.FlavorText ?? string.Empty;
+            string description = ExtractDescription(pokemonSpecies);
 
-            latestEnglishDescription = Regex.Replace(latestEnglishDescription, @"[\r\n\f]", " ");
+            description = ReplaceSpecialCharactersWithSpaces(description);
 
             return new PokemonDescription
             {
-                Name = result.Name,
-                Description = latestEnglishDescription
+                Name = pokemonSpecies.Name,
+                Description = description
             };
+        }
+
+        public string ExtractDescription(PokemonSpecies species)
+        {
+            return species.FlavorTextEntries
+                // get only the english flavor text
+                .Where(i => i.Language.Name == "en")
+                // filter version when white list specified
+                .Where(i => FilteredVersions?.Length > 0 && FilteredVersions.Contains(i.Version.Name))
+                // order by number version desc
+                .OrderByDescending(i => ExtractVersionNumber(i.Version))
+                // extract the flavor text
+                .Select(i => i.FlavorText)
+                // or returns a string empty
+                .FirstOrDefault() ?? string.Empty;
+        }
+
+        public static int ExtractVersionNumber(Version version)
+        {
+            return Convert.ToInt32(new Uri(version.Url).Segments.Last().Replace("/", ""));
+        }
+
+        public static string ReplaceSpecialCharactersWithSpaces(string text)
+        {
+            return Regex.Replace(text, "(\r\n)|[\r\n\f\t]", " ");
         }
     }
 }
