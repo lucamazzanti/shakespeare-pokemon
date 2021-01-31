@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     c.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
                 })
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5))
                 .AddTransientHttpErrorPolicy(p => p.RetryAsync(3))
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
