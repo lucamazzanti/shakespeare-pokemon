@@ -15,7 +15,7 @@ namespace ShakespearePokemon.Tests.Unit
         {
             // Arrange
             // the service returns a sample pokemon
-            var serviceResult = new Pokemon { Name = "charizard", Description = "sample description"};
+            var serviceResult = new ShakespearePokemonDescription { Name = "charizard", Description = "sample description"};
             var pokemonService = new Mock<IShakespearePokemonService>();
             pokemonService
                 .Setup(i => i.GetPokemon(It.IsAny<string>()))

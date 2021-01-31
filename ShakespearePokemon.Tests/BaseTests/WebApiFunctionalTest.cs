@@ -7,7 +7,7 @@ using ShakespearePokemon.API.Services.Shakespeare;
 
 namespace ShakespearePokemon.Tests.BaseTests
 {
-    public abstract class WebApiIntegrationTest
+    public abstract class WebApiFunctionalTest
     {
         private APIWebApplicationFactory _factory;
         protected HttpClient Client;
@@ -15,16 +15,7 @@ namespace ShakespearePokemon.Tests.BaseTests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            _factory = new APIWebApplicationFactory(services =>
-            {
-                // mocking external services
-                services.Remove(services.SingleOrDefault(d => d.ServiceType == typeof(IPokemonService)));
-                services.Remove(services.SingleOrDefault(d => d.ServiceType == typeof(IShakespeareService)));
-
-                // actually remains the same because are fakes
-                services.AddScoped<IPokemonService, PokemonService>();
-                services.AddScoped<IShakespeareService, ShakespeareService>();
-            });
+            _factory = new APIWebApplicationFactory();
             Client = _factory.CreateClient();
         }
 

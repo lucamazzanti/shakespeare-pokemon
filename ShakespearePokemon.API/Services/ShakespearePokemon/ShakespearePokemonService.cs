@@ -1,23 +1,32 @@
 ﻿using System;
+using ShakespearePokemon.API.Services.Pokemon;
+using ShakespearePokemon.API.Services.Shakespeare;
 
 namespace ShakespearePokemon.API.Services.ShakespearePokemon
 {
     public class ShakespearePokemonService : IShakespearePokemonService
     {
-        public Pokemon GetPokemon(string name)
-        {
-            if (string.Equals("charizard", name, StringComparison.CurrentCultureIgnoreCase))
-            {
-                return new Pokemon
-                {
-                    Name = "charizard",
-                    Description = "Charizard flies 'round the sky in search of powerful opponents." +
-                                  "'t breathes fire of such most wondrous heat yond 't melts aught. " +
-                                  "However, 't nev'r turns its fiery breath on any opponent weaker than itself."
-                };
-            }
+        private readonly IPokemonService _pokemonService;
+        private readonly IShakespeareService _shakespeareService;
 
-            return null;
+        public ShakespearePokemonService(IPokemonService pokemonService, IShakespeareService shakespeareService)
+        {
+            _pokemonService = pokemonService;
+            _shakespeareService = shakespeareService;
+        }
+        public ShakespearePokemonDescription GetPokemon(string name)
+        {
+            PokemonDescription pokemonDescription = _pokemonService.GetPokemonDescription(name);
+
+            if (pokemonDescription == null) return null;
+
+            string translation = _shakespeareService.Translate(pokemonDescription.Description);
+
+            return new ShakespearePokemonDescription
+            {
+                Name = pokemonDescription.Name,
+                Description = translation ?? pokemonDescription.Description
+            };
         }
     }
 }

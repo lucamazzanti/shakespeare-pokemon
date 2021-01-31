@@ -2,6 +2,6 @@
 {
     public interface IShakespearePokemonService
     {
-        Pokemon GetPokemon(string name);
+        ShakespearePokemonDescription GetPokemon(string name);
     }
 }

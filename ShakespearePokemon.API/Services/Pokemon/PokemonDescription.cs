@@ -1,6 +1,6 @@
-﻿namespace ShakespearePokemon.API.Services.ShakespearePokemon
+﻿namespace ShakespearePokemon.API.Services.Pokemon
 {
-    public class Pokemon
+    public class PokemonDescription
     {
         public string Name { get; set; }
 

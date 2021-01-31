@@ -1,29 +1,15 @@
-﻿using Newtonsoft.Json;
-using NUnit.Framework;
-using ShakespearePokemon.Tests.BaseTests;
-using ShakespearePokemon.Tests.Models;
+﻿using NUnit.Framework;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using ShakespearePokemon.Tests.BaseTests;
+using ShakespearePokemon.Tests.Models;
 
-namespace ShakespearePokemon.Tests.Integration
+namespace ShakespearePokemon.Tests.Functional
 {
-    public class PokemonControllerTests : WebApiIntegrationTest
+    public class EndpointTests : WebApiFunctionalTest
     {
-        [Test]
-        public async Task GetPokemon_ReturnsOK_GivenExistentName()
-        {
-            HttpResponseMessage result = await Client.GetAsync("/pokemon/charizard");
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        }
-
-        [Test]
-        public async Task GetPokemon_ReturnsNotFound_GivenNotFoundName()
-        {
-            HttpResponseMessage result = await Client.GetAsync("/pokemon/gandalf");
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
-        }
-
         [Test]
         public async Task GetPokemon_ReturnsShakespeareDescrpition_GivenExistentName()
         {
