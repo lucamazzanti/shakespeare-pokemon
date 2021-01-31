@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShakespearePokemon.API.Models;
 using ShakespearePokemon.API.Services.ShakespearePokemon;
@@ -19,9 +20,9 @@ namespace ShakespearePokemon.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [HttpGet("{name}")]
-        public ActionResult<PokemonViewModel> GetPokemon([FromRoute] string name)
+        public async Task<ActionResult<PokemonViewModel>> GetPokemonAsync([FromRoute] string name)
         {
-            var result = _shakespearePokemonService.GetPokemon(name);
+            var result = await _shakespearePokemonService.GetPokemonAsync(name);
 
             if (result == null)
             {

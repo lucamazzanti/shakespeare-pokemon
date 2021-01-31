@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -11,20 +12,20 @@ namespace ShakespearePokemon.Tests.Unit
     public class PokemonControllerTests
     {
         [Test]
-        public void GetPokemon_ReturnsOK_GivenExistentName()
+        public async Task GetPokemon_ReturnsOK_GivenExistentName()
         {
             // Arrange
             // the service returns a sample pokemon
             var serviceResult = new ShakespearePokemonDescription { Name = "charizard", Description = "sample description"};
             var pokemonService = new Mock<IShakespearePokemonService>();
             pokemonService
-                .Setup(i => i.GetPokemon(It.IsAny<string>()))
-                .Returns(serviceResult);
+                .Setup(i => i.GetPokemonAsync(It.IsAny<string>()))
+                .ReturnsAsync(serviceResult);
 
             var controller = new PokemonController(pokemonService.Object);
 
             // Act
-            ActionResult<PokemonViewModel> result = controller.GetPokemon("charizard");
+            ActionResult<PokemonViewModel> result = await controller.GetPokemonAsync("charizard");
 
             // Assert
             Assert.That(result, Is.TypeOf<ActionResult<PokemonViewModel>>());
@@ -33,7 +34,7 @@ namespace ShakespearePokemon.Tests.Unit
         }
 
         [Test]
-        public void GetPokemon_ReturnsNotFound_GivenNotFoundName()
+        public async Task GetPokemon_ReturnsNotFound_GivenNotFoundName()
         {
             // Arrange
             // the service returns null
@@ -42,7 +43,7 @@ namespace ShakespearePokemon.Tests.Unit
             var controller = new PokemonController(pokemonService.Object);
 
             // Act
-            ActionResult<PokemonViewModel> result = controller.GetPokemon("charizard");
+            ActionResult<PokemonViewModel> result = await controller.GetPokemonAsync("charizard");
 
             // Assert
             MvcAssert.IsProblemErrorResult(result, StatusCodes.Status404NotFound);

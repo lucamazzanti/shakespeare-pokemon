@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using ShakespearePokemon.API.Services.Pokemon;
 using ShakespearePokemon.API.Services.Shakespeare;
+using ShakespearePokemon.Tests.Mocks;
 
 namespace ShakespearePokemon.Tests.BaseTests
 {
@@ -21,8 +22,7 @@ namespace ShakespearePokemon.Tests.BaseTests
                 services.Remove(services.SingleOrDefault(d => d.ServiceType == typeof(IPokemonService)));
                 services.Remove(services.SingleOrDefault(d => d.ServiceType == typeof(IShakespeareService)));
 
-                // actually remains the same because are fakes
-                services.AddScoped<IPokemonService, PokemonService>();
+                services.AddScoped<IPokemonService, PokemonServiceStub>();
                 services.AddScoped<IShakespeareService, ShakespeareService>();
             });
             Client = _factory.CreateClient();

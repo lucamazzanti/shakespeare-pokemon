@@ -1,7 +1,9 @@
-﻿namespace ShakespearePokemon.API.Services.ShakespearePokemon
+﻿using System.Threading.Tasks;
+
+namespace ShakespearePokemon.API.Services.ShakespearePokemon
 {
     public interface IShakespearePokemonService
     {
-        ShakespearePokemonDescription GetPokemon(string name);
+        Task<ShakespearePokemonDescription> GetPokemonAsync(string name);
     }
 }

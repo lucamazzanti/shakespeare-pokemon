@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ShakespearePokemon.API.Services.Pokemon;
 using ShakespearePokemon.API.Services.Shakespeare;
 
@@ -14,9 +15,9 @@ namespace ShakespearePokemon.API.Services.ShakespearePokemon
             _pokemonService = pokemonService;
             _shakespeareService = shakespeareService;
         }
-        public ShakespearePokemonDescription GetPokemon(string name)
+        public async Task<ShakespearePokemonDescription> GetPokemonAsync(string name)
         {
-            PokemonDescription pokemonDescription = _pokemonService.GetPokemonDescription(name);
+            PokemonDescription pokemonDescription = await _pokemonService.GetPokemonDescriptionAsync(name);
 
             if (pokemonDescription == null) return null;
 
