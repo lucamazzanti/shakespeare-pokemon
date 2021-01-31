@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using ShakespearePokemon.API.Models;
+using ShakespearePokemon.API.Services.ShakespearePokemon;
 
 namespace ShakespearePokemon.API.Controllers
 {
@@ -7,18 +9,31 @@ namespace ShakespearePokemon.API.Controllers
     [Route("pokemon")]
     public class PokemonController : ControllerBase
     {
-        public PokemonController()
+        private readonly IShakespearePokemonService _shakespearePokemonService;
+
+        public PokemonController(IShakespearePokemonService shakespearePokemonService)
         {
- 
+            _shakespearePokemonService = shakespearePokemonService;
         }
 
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         [HttpGet("{name}")]
-        public Pokemon Get([FromRoute] string name)
+        public ActionResult<PokemonViewModel> GetPokemon([FromRoute] string name)
         {
-            return new Pokemon()
+            var result = _shakespearePokemonService.GetPokemon(name);
+
+            if (result == null)
             {
-                Name = name,
-                Description = $"the pokemon {name} description"
+                return Problem(
+                    statusCode: StatusCodes.Status404NotFound, 
+                    detail: $"PokemonViewModel name '{name}' not found");
+            }
+
+            return new PokemonViewModel
+            {
+                Name = result.Name,
+                Description = result.Description
             };
         }
     }

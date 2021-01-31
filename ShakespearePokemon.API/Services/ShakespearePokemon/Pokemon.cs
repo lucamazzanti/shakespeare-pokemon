@@ -1,4 +1,4 @@
-﻿namespace ShakespearePokemon.API.Models
+﻿namespace ShakespearePokemon.API.Services.ShakespearePokemon
 {
     public class Pokemon
     {
