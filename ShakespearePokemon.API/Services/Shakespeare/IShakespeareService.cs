@@ -1,7 +1,9 @@
-﻿namespace ShakespearePokemon.API.Services.Shakespeare
+﻿using System.Threading.Tasks;
+
+namespace ShakespearePokemon.API.Services.Shakespeare
 {
     public interface IShakespeareService
     {
-        string Translate(string text);
+        Task<string> TranslateASync(string text);
     }
 }

@@ -1,19 +1,20 @@
-﻿namespace ShakespearePokemon.API.Services.Shakespeare
+﻿using System.Threading.Tasks;
+using ShakespearePokemon.API.Services.Shakespeare.Client;
+
+namespace ShakespearePokemon.API.Services.Shakespeare
 {
     public class ShakespeareService : IShakespeareService
     {
-        public string Translate(string text)
-        {
-            if (text == "Charizard flies around the sky in search of powerful opponents. " +
-                "It breathes fire of such great heat that it melts anything. " +
-                "However, it never turns its fiery breath on any opponent weaker than itself.")
-            {
-                return "Charizard flies 'round the sky in search of powerful opponents. " +
-                       "'t breathes fire of such most wondrous heat yond 't melts aught. " +
-                       "However, 't nev'r turns its fiery breath on any opponent weaker than itself.";
-            }
+        private readonly IShakespeareClient _client;
 
-            return text;
+        public ShakespeareService(IShakespeareClient client)
+        {
+            _client = client;
+        }
+
+        public async Task<string> TranslateASync(string text)
+        {
+            return await _client.TranslateASync(text);
         }
     }
 }

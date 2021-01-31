@@ -15,7 +15,6 @@ namespace ShakespearePokemon.Tests.Unit
         [Test]
         public async Task GetPokemon_ReturnsOK_GivenExistentName()
         {
-            // Arrange
             // the service returns a sample pokemon
             var serviceResult = new ShakespearePokemonDescription { Name = "charizard", Description = "sample description"};
             
@@ -26,10 +25,8 @@ namespace ShakespearePokemon.Tests.Unit
 
             var controller = new PokemonController(pokemonService.Object);
 
-            // Act
             ActionResult<PokemonViewModel> result = await controller.GetPokemonAsync("charizard");
 
-            // Assert
             Assert.That(result, Is.TypeOf<ActionResult<PokemonViewModel>>());
             Assert.AreEqual(serviceResult.Name, result.Value.Name);
             Assert.AreEqual(serviceResult.Description, result.Value.Description);
@@ -38,16 +35,13 @@ namespace ShakespearePokemon.Tests.Unit
         [Test]
         public async Task GetPokemon_ReturnsNotFound_GivenNotFoundName()
         {
-            // Arrange
             // the service returns null
             var pokemonService = new Mock<IShakespearePokemonService>();
 
             var controller = new PokemonController(pokemonService.Object);
 
-            // Act
             ActionResult<PokemonViewModel> result = await controller.GetPokemonAsync("charizard");
 
-            // Assert
             MvcAssert.IsProblemErrorResult(result, StatusCodes.Status404NotFound);
         }
     }

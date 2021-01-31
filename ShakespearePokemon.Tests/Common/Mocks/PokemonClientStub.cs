@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ShakespearePokemon.API.Services.Pokemon.Client;
+﻿using ShakespearePokemon.API.Services.Pokemon.Client;
 using ShakespearePokemon.API.Services.Pokemon.Contracts;
 using ShakespearePokemon.Tests.Common.Builders;
-using Version = ShakespearePokemon.API.Services.Pokemon.Contracts.Version;
+using System;
+using System.Threading.Tasks;
 
 namespace ShakespearePokemon.Tests.Common.Mocks
 {

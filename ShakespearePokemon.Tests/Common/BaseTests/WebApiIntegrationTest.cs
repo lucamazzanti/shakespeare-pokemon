@@ -24,7 +24,7 @@ namespace ShakespearePokemon.Tests.Common.BaseTests
                 services.Remove(services.SingleOrDefault(d => d.ServiceType == typeof(IShakespeareService)));
 
                 services.AddScoped<IPokemonClient, PokemonClientStub>();
-                services.AddScoped<IShakespeareService, ShakespeareService>();
+                services.AddScoped<IShakespeareService, ShakespeareServiceStub>();
             });
             Client = _factory.CreateClient();
         }

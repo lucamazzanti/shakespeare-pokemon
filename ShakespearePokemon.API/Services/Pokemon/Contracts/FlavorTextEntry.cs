@@ -8,9 +8,10 @@ namespace ShakespearePokemon.API.Services.Pokemon.Contracts
         public string FlavorText { get; set; }
 
         [JsonPropertyName("language")]
-        public Language Language { get; set; }
+        public Language Language { get; set; } = new();
 
         [JsonPropertyName("version")]
-        public Version Version { get; set; }
+        public Version Version { get; set; } = new();
+
     }
 }

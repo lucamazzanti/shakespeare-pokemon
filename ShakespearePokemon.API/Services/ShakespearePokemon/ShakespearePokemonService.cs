@@ -1,7 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using ShakespearePokemon.API.Services.Pokemon;
+﻿using ShakespearePokemon.API.Services.Pokemon;
 using ShakespearePokemon.API.Services.Shakespeare;
+using System.Threading.Tasks;
 
 namespace ShakespearePokemon.API.Services.ShakespearePokemon
 {
@@ -15,13 +14,14 @@ namespace ShakespearePokemon.API.Services.ShakespearePokemon
             _pokemonService = pokemonService;
             _shakespeareService = shakespeareService;
         }
+
         public async Task<ShakespearePokemonDescription> GetPokemonAsync(string name)
         {
             PokemonDescription pokemonDescription = await _pokemonService.GetPokemonDescriptionAsync(name);
 
             if (pokemonDescription == null) return null;
 
-            string translation = _shakespeareService.Translate(pokemonDescription.Description);
+            string translation = await _shakespeareService.TranslateASync(pokemonDescription.Description);
 
             return new ShakespearePokemonDescription
             {

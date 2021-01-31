@@ -30,7 +30,7 @@ namespace ShakespearePokemon.API.Controllers
             {
                 return Problem(
                     statusCode: StatusCodes.Status404NotFound, 
-                    detail: $"PokemonViewModel name '{name}' not found");
+                    detail: $"Pokemon name '{name}' not found");
             }
 
             return new PokemonViewModel

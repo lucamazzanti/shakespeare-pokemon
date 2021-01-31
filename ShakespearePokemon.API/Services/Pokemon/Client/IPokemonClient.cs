@@ -1,6 +1,5 @@
-﻿using System.Net.Http;
+﻿using ShakespearePokemon.API.Services.Pokemon.Contracts;
 using System.Threading.Tasks;
-using ShakespearePokemon.API.Services.Pokemon.Contracts;
 
 namespace ShakespearePokemon.API.Services.Pokemon.Client
 {
