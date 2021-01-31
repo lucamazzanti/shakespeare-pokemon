@@ -1,9 +1,5 @@
-﻿using System.Linq;
+﻿using NUnit.Framework;
 using System.Net.Http;
-using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
-using ShakespearePokemon.API.Services.Pokemon;
-using ShakespearePokemon.API.Services.Shakespeare;
 
 namespace ShakespearePokemon.Tests.BaseTests
 {

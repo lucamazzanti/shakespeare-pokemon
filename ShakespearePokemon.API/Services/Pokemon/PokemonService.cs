@@ -1,10 +1,7 @@
-﻿using System;
+﻿using ShakespearePokemon.API.Services.Pokemon.Client;
 using ShakespearePokemon.API.Services.Pokemon.Contracts;
-using System.IO;
+using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Version = ShakespearePokemon.API.Services.Pokemon.Contracts.Version;
@@ -13,7 +10,7 @@ namespace ShakespearePokemon.API.Services.Pokemon
 {
     public class PokemonService : IPokemonService
     {
-        private readonly HttpClient _httpClient;
+        private readonly IPokemonClient _client;
 
         public string[] FilteredVersions { get; set; } =
         {
@@ -21,9 +18,9 @@ namespace ShakespearePokemon.API.Services.Pokemon
             "sapphire","diamond","pearl","omega-ruby","alpha-sapphire"
         };
 
-        public PokemonService(HttpClient httpClient)
+        public PokemonService(IPokemonClient client)
         {
-            _httpClient = httpClient;
+            _client = client;
         }
 
         public async Task<PokemonDescription> GetPokemonDescriptionAsync(string name)
@@ -32,23 +29,13 @@ namespace ShakespearePokemon.API.Services.Pokemon
             {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
             }
- 
-            HttpResponseMessage response = await _httpClient.GetAsync($"pokemon-species/{name.ToLower()}");
 
-            // "not found" result may be an hot-path, I avoid to throw it as an exception
-            if (!response.IsSuccessStatusCode)
+            PokemonSpecies pokemonSpecies = await _client.GetPokemonSpeciesAsync(name.ToLower());
+
+            if (pokemonSpecies == null)
             {
-                if (response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
-                response.EnsureSuccessStatusCode();
+                return null;
             }
-
-            await using Stream responseStream = await response.Content.ReadAsStreamAsync();
-
-            PokemonSpecies pokemonSpecies = await JsonSerializer.DeserializeAsync<PokemonSpecies>(responseStream) 
-                                            ?? new PokemonSpecies();
 
             string description = ExtractDescription(pokemonSpecies);
 

@@ -3,26 +3,27 @@ using NUnit.Framework;
 using ShakespearePokemon.API.Services.Pokemon;
 using System.Net.Http;
 using System.Threading.Tasks;
+using ShakespearePokemon.API.Services.Pokemon.Client;
 
 namespace ShakespearePokemon.Tests.Integration
 {
     [Category("Integration")]
     public class PokemonServiceTests
     {
-        protected HttpClient Client;
+        private HttpClient _httpClient;
+        protected IPokemonClient Client;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            Client = new HttpClient { BaseAddress = new Uri("https://pokeapi.co/api/v2/") };
-            Client.DefaultRequestHeaders.Add("User-Agent", "ShakespearePokemon.Tests");
-            Client.DefaultRequestHeaders.Add("Accept", "application/json");
+            _httpClient = new HttpClient { BaseAddress = new Uri("https://pokeapi.co/api/v2/") };
+            Client = new PokemonClient(_httpClient);
         }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Client.Dispose();
+            _httpClient.Dispose();
         }
 
         [Test]

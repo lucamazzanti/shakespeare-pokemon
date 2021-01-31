@@ -2,10 +2,9 @@
 using ShakespearePokemon.API.Services.Pokemon;
 using ShakespearePokemon.API.Services.Pokemon.Contracts;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Moq;
-using Moq.Protected;
+using ShakespearePokemon.API.Services.Pokemon.Client;
 
 namespace ShakespearePokemon.Tests.Unit
 {
@@ -120,6 +119,51 @@ namespace ShakespearePokemon.Tests.Unit
         {
             Assert.AreEqual("This is a line. This is another one with a tab inside.",
                 PokemonService.ReplaceSpecialCharactersWithSpaces("This is a line.\r\nThis is another one with a tab\tinside."));
+        }
+
+        [Test]
+        public async Task GetPokemonDescription_ReturnsDescrpition_GivenExistentName()
+        {
+            var expected = new PokemonDescription
+            {
+                Name = "charizard",
+                Description = "red-en"
+            };
+
+            var pokemonSpecies = new PokemonSpecies
+            {
+                Name = "charizard",
+                FlavorTextEntries = new List<FlavorTextEntry>
+                {
+                    new()
+                    {
+                        FlavorText = "red-en",
+                        Language = new Language { Name = "en" },
+                        Version = new Version { Name = "red", Url = "https://pokeapi.co/api/v2/version/1/" }
+                    }
+                }
+            };
+
+            var client = new Mock<IPokemonClient>();
+            client.Setup(i => i.GetPokemonSpeciesAsync(It.IsAny<string>()))
+                .ReturnsAsync(pokemonSpecies);
+            var service = new PokemonService(client.Object);
+
+            PokemonDescription result = await service.GetPokemonDescriptionAsync("charizard");
+
+            Assert.AreEqual(expected.Name, result.Name);
+            Assert.AreEqual(expected.Description, result.Description);
+        }
+
+        [Test]
+        public async Task GetPokemonDescription_ReturnsNull_GivenNotFoundName()
+        {
+            var client = new Mock<IPokemonClient>();
+            var service = new PokemonService(client.Object);
+
+            PokemonDescription result = await service.GetPokemonDescriptionAsync("charizard");
+
+            Assert.IsNull(result);
         }
     }
 }
