@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,7 +22,11 @@ namespace ShakespearePokemon.API
         {
             services.AddApplicationServices(Configuration);
 
-            services.AddControllers();
+            services.AddControllers(options => 
+                // client cache browsers and most clients respects, no query keys or header set, enabled for proxies and clients
+                options.CacheProfiles.Add("DefaultOneHour", new CacheProfile { Duration = 3600, Location = ResponseCacheLocation.Any }));
+
+            services.AddResponseCaching();
 
             services.AddSwaggerGen(c =>
             {
@@ -52,6 +57,8 @@ namespace ShakespearePokemon.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseResponseCaching();
 
             app.UseEndpoints(endpoints =>
             {

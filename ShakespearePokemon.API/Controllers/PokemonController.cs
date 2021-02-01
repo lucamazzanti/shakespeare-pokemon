@@ -18,6 +18,8 @@ namespace ShakespearePokemon.API.Controllers
             _shakespearePokemonService = shakespearePokemonService;
         }
 
+        // 1 hour of client caching, see startup configuration for details
+        [ResponseCache(CacheProfileName = "DefaultOneHour")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
