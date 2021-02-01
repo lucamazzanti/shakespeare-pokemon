@@ -1,17 +1,18 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using ShakespearePokemon.API.Services.Pokemon.Client;
 using ShakespearePokemon.API.Services.Pokemon.Contracts;
-using ShakespearePokemon.Tests.Common.BaseTests;
+using ShakespearePokemon.Tests.Common;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ShakespearePokemon.Tests.Integration
 {
-    public class PokemonClientTests : IntegrationTest
+    // Integration tests on the Pokemon Client, it reads the test project settings "testsettings.json".
+    public class PokemonClientTest : IntegrationTest
     {
         private HttpClient _httpClient;
         private PokemonClient _pokemonClient;
@@ -25,12 +26,14 @@ namespace ShakespearePokemon.Tests.Integration
         }
 
         [Test]
-        public void GetPokemonSpeciesAsync_ThrowsArgumentNullException_GivenANullText()
+        [Description("Precondition on species parameter.")]
+        public void GetPokemonSpeciesAsync_ThrowsArgumentNullException_GivenNullText()
         {
             Assert.ThrowsAsync<ArgumentNullException>(() => _pokemonClient.GetPokemonSpeciesAsync(null));
         }
 
         [Test]
+        [Description("When called /pokemon-species/{name} on an existent species it returns the species details.")]
         public async Task GetPokemonSpeciesAsync_ReturnsPokemonSpecies_GivenExistentName()
         {
             PokemonSpecies pokemonSpecies = await _pokemonClient.GetPokemonSpeciesAsync("magikarp");
@@ -48,6 +51,7 @@ namespace ShakespearePokemon.Tests.Integration
         }
 
         [Test]
+        [Description("It validates the case insensitive functionality added to emprove the client experience.")]
         public async Task GetPokemonSpeciesAsync_ReturnsPokemonSpecies_GivenExistentNameWithDifferentCasing()
         {
             PokemonSpecies pokemonSpecies = await _pokemonClient.GetPokemonSpeciesAsync("cHaRiZaRd");

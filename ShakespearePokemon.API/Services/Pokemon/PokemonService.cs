@@ -54,7 +54,7 @@ namespace ShakespearePokemon.API.Services.Pokemon
                 // get only the english flavor text
                 .Where(i => i.Language.Name == "en")
                 // filter version when white list specified
-                .Where(i => FilteredVersions?.Length > 0 && FilteredVersions.Contains(i.Version.Name))
+                .Where(i => FilteredVersions == null || FilteredVersions.Length == 0 || FilteredVersions.Contains(i.Version.Name))
                 // order by number version desc
                 .OrderByDescending(i => ExtractVersionNumber(i.Version))
                 // extract the flavor text

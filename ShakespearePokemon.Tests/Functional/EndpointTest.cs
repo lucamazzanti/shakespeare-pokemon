@@ -1,16 +1,17 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json;
+using NUnit.Framework;
+using ShakespearePokemon.Tests.Common;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using ShakespearePokemon.Tests.Common.BaseTests;
-using ShakespearePokemon.Tests.Common.Models;
 
 namespace ShakespearePokemon.Tests.Functional
 {
-    public class EndpointTests : WebApiFunctionalTest
+    // All the functional tests of ShakespearePokemon.API Web application
+    public class EndpointTest : FunctionalTest
     {
         [Test]
+        [Description("When called /pokemon/{name} on an existent species it returns the name an description in Shakespeare words.")]
         public async Task GetPokemon_ReturnsShakespeareDescrpition_GivenExistentName()
         {
             var expectedJson = new GetPokemonResult
@@ -32,7 +33,8 @@ namespace ShakespearePokemon.Tests.Functional
         }
 
         [Test]
-        public async Task GetPokemon_ReturnsNotFound_GivenNotFoundName()
+        [Description("When called /pokemon/{name} on an unknown species it returns an error 404.")]
+        public async Task GetPokemon_ReturnsNotFound_GivenUnknownName()
         {
             HttpResponseMessage result = await Client.GetAsync("/pokemon/gandalf");
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
