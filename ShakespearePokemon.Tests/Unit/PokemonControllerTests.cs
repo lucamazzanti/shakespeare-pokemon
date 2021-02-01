@@ -13,7 +13,7 @@ namespace ShakespearePokemon.Tests.Unit
     public class PokemonControllerTests : UnitTest
     {
         [Test]
-        public async Task GetPokemon_ReturnsOK_GivenExistentName()
+        public async Task GetPokemonAsync_ReturnsOk_GivenExistentName()
         {
             // the service returns a sample pokemon
             var serviceResult = new ShakespearePokemonDescription { Name = "charizard", Description = "sample description"};
@@ -33,7 +33,7 @@ namespace ShakespearePokemon.Tests.Unit
         }
 
         [Test]
-        public async Task GetPokemon_ReturnsNotFound_GivenNotFoundName()
+        public async Task GetPokemonAsync_ReturnsNotFound_GivenNotFoundName()
         {
             // the service returns null
             var pokemonService = new Mock<IShakespearePokemonService>();

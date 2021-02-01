@@ -1,0 +1,11 @@
+﻿{
+  "API": {
+    "Pokemon": {
+      "Url": "https://pokeapi.co/api/v2/"
+    },
+    "Shakespeare": {
+      "Url": "https://api.funtranslations.com/",
+      "AuthenticationToken": ""
+    }
+  }
+}

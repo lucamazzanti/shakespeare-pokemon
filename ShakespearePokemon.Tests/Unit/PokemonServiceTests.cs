@@ -116,14 +116,14 @@ namespace ShakespearePokemon.Tests.Unit
         }
 
         [Test]
-        public void RemoveSpecialCharacters_Replace_GivenATextContaingNewLines()
+        public void ReplaceSpecialCharactersWithSpaces_Replace_GivenATextContaingNewLines()
         {
             Assert.AreEqual("This is a line. This is another one with a tab inside.",
                 PokemonService.ReplaceSpecialCharactersWithSpaces("This is a line.\r\nThis is another one with a tab\tinside."));
         }
 
         [Test]
-        public async Task GetPokemonDescription_ReturnsDescrpition_GivenExistentName()
+        public async Task GetPokemonDescriptionAsync_ReturnsDescrpition_GivenExistentName()
         {
             var expected = new PokemonDescription
             {
@@ -157,7 +157,7 @@ namespace ShakespearePokemon.Tests.Unit
         }
 
         [Test]
-        public async Task GetPokemonDescription_ReturnsNull_GivenNotFoundName()
+        public async Task GetPokemonDescriptionAsync_ReturnsNull_GivenNotFoundName()
         {
             var client = new Mock<IPokemonClient>();
             var service = new PokemonService(client.Object);

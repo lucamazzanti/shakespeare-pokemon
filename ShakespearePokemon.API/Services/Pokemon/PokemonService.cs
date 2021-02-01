@@ -30,7 +30,7 @@ namespace ShakespearePokemon.API.Services.Pokemon
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
             }
 
-            PokemonSpecies pokemonSpecies = await _client.GetPokemonSpeciesAsync(name.ToLower());
+            PokemonSpecies pokemonSpecies = await _client.GetPokemonSpeciesAsync(name);
 
             if (pokemonSpecies == null)
             {
