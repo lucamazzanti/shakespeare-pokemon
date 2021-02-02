@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShakespearePokemon.API.Models;
 using ShakespearePokemon.API.Services.ShakespearePokemon;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace ShakespearePokemon.API.Controllers
 {
@@ -19,7 +19,7 @@ namespace ShakespearePokemon.API.Controllers
         }
 
         // 1 hour of client caching, see startup configuration for details
-        [ResponseCache(CacheProfileName = "DefaultOneHour")]
+        [ResponseCache(CacheProfileName = "one-hour")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

@@ -20,14 +20,29 @@ namespace ShakespearePokemon.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplicationServices(Configuration);
-
-            services.AddControllers(options => 
-                // client cache browsers and most clients respects, no query keys or header set, enabled for proxies and clients
-                options.CacheProfiles.Add("DefaultOneHour", new CacheProfile { Duration = 3600, Location = ResponseCacheLocation.Any }));
-
+            // client caching policies
             services.AddResponseCaching();
 
+            // server caching policies
+            // for small amount of memory or sticky sessions
+            services.AddMemoryCache();
+
+            // for other complex scenarios
+            // services.AddDistributedMemoryCache();
+
+            // configure resilient/caching policies managed by Polly
+            services.AddPollyPolicies();
+
+            // configure client caching policies inside the controllers setup
+            services.AddControllers(options => 
+                // client cache browsers and most clients respects, no query keys or header set,
+                // enabled for proxies and clients (warning: browsers\clients don't honor that always)
+                options.CacheProfiles.Add("one-hour", new CacheProfile
+                {
+                    Duration = 3600, Location = ResponseCacheLocation.Any
+                }));
+
+            // configure swagger doc generator
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -36,15 +51,19 @@ namespace ShakespearePokemon.API
                     Version = "v1"
                 });
             });
+
+            // add all the business services
+            services.AddApplicationServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // exception handling to manage error result complain to https://tools.ietf.org/html/rfc7807
             app.UseExceptionHandler(env.IsDevelopment() ? "/error-local-development" : "/Error");
 
+            // add swagger
             app.UseSwagger();
-
             app.UseSwaggerUI(c =>
             {
                 c.DocumentTitle = "Shakespeare Pokemon REST API";
@@ -58,6 +77,7 @@ namespace ShakespearePokemon.API
 
             app.UseAuthorization();
 
+            // add client caching
             app.UseResponseCaching();
 
             app.UseEndpoints(endpoints =>

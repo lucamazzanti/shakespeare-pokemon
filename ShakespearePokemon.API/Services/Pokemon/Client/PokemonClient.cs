@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using ShakespearePokemon.API.Services.Pokemon.Contracts;
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 
 namespace ShakespearePokemon.API.Services.Pokemon.Client
 {
@@ -15,7 +16,8 @@ namespace ShakespearePokemon.API.Services.Pokemon.Client
 
         public PokemonClient(HttpClient httpClient, IOptions<PokemonClientConfig> config)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "ShakespearePokemon.API");
 
