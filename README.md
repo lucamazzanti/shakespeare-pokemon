@@ -83,11 +83,17 @@ Go to http://localhost:5000 in a browser to test the app.
 
 ## Project details
 This an example of an ASP NET Core Web application 5.0, it consumes 2 external API and produces a new result.
+
 The boilerplate structure shows some of the aspects you can find that type of project.
+
 The pokemon API requires caching, the Shakespeare API give us heavy rate limiting without an authentication token.
+
 I setup a client cache on the endpoint, a local in memory server cache on the pokemon service, a configuration that accept the token for the other one.
+
 A single test project shows how can be tested the project: unit, integration, functional tests.
+
 The project can be run in a linux docker container, hosted on a web server or self-hosted.
+
 The project was developed using the github management lifecycle, see [here](https://github.com/lucamazzanti/shakespeare-pokemon/projects/1) for tasks and considerations.
 
 ### External API
