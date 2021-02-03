@@ -1,0 +1,34 @@
+name: Continuous Integration
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Version ID
+      run: |
+        VERSION=`git describe --tags --abbrev=0` || VERSION="0.0.0-SNAPSHOT-`git rev-parse --short HEAD`" ; echo "VERSION=$VERSION" >> $GITHUB_ENV
+    - name: Setup .NET Core 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build in Debug
+      run: dotnet build -property:Version=$VERSION --configuration Debug --no-restore
+    - name: Test
+      run: dotnet test --no-restore --no-build --verbosity normal --filter "TestCategory=Unit"
+    - name: Build in Release
+      run: dotnet build -property:Version=$VERSION --configuration Release --no-restore
+    - name: Publish
+      run: dotnet publish --no-build --configuration Release -o publish ShakespearePokemon.API
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: shakespeare-pokemon-${{ env.VERSION }}
+        path: publish
