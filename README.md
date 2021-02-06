@@ -4,10 +4,12 @@
 ![build status](https://github.com/lucamazzanti/shakespeare-pokemon/workflows/build/badge.svg)
 ![release status](https://github.com/lucamazzanti/shakespeare-pokemon/workflows/release/badge.svg)
 [![codecov](https://codecov.io/gh/lucamazzanti/shakespeare-pokemon/branch/main/graph/badge.svg?token=KYXB2QARGD)](https://codecov.io/gh/lucamazzanti/shakespeare-pokemon)
+![Known Vulnerabilities](https://snyk.io/test/github/lucamazzanti/shakespeare-pokemon/badge.svg?targetFile=ShakespearePokemon.API.csproj)
 
 > What if the description of each Pokemon were to be written using Shakespeare's style?
 
 This is a REST API that, given a Pokemon name, returns its Shakespearean description.
+
 
 ![shakespeare-pokemon-logo](https://github.com/lucamazzanti/shakespeare-pokemon/blob/main/.docs/pokemon-shakespeare-small.png)
 
