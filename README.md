@@ -1,3 +1,5 @@
+![shakespeare-pokemon-logo](https://github.com/lucamazzanti/shakespeare-pokemon/blob/main/.docs/pokemon-shakespeare-319x305.png)
+
 # Shakespeare Pokemon REST API
 > What if the description of each Pokemon were to be written using Shakespeare's style?
 
