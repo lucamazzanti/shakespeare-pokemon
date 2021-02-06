@@ -60,18 +60,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddTransientHttpErrorPolicy(p => p.RetryAsync(3))
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
-            // uncomment here to test the service without cache, comment the next part
-            // services.AddScoped<IPokemonService, PokemonService>();
+            services.AddScoped<IPokemonService, PokemonService>();
 
-            // service with cache
-            // caching set using a decorator pattern to avoid to spread boilerplate code inside the service
-            // (the vanilla dependecy injection is not simple to configure whith a decorator pattern)
-            services.AddScoped<PokemonService, PokemonService>();
-            services.AddScoped<IPokemonService, CachedPokemonService>(p =>
-                new CachedPokemonService(
-                    p.GetRequiredService<PokemonService>(), 
-                    p.GetRequiredService<IReadOnlyPolicyRegistry<string>>()
-                ));
+            // caching is set using a decorator pattern to keep the single responsability
+            // it also honor the concrecte class name: a pokemon service, and a cached pokemon service
+            services.Decorate<IPokemonService, CachedPokemonService>();
 
             return services;
         }
