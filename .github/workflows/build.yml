@@ -1,4 +1,4 @@
-name: Build
+name: build
 on:
   push:
     branches: [ main ]
@@ -26,8 +26,8 @@ jobs:
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
-        token: $
-        file: /home/runner/work/shakespeare-pokemon/ShakespearePokemon.Tests/coverage.opencover.xml
+        #token: 
+        file: /home/runner/work/shakespeare-pokemon/shakespeare-pokemon/ShakespearePokemon.Tests/coverage.opencover.xml
     - name: Build in Release
       run: dotnet build -property:Version=$VERSION --configuration Release --no-restore
     - name: Publish

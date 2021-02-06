@@ -1,8 +1,9 @@
 
 # Shakespeare Pokemon REST API
 
-![Build status](https://github.com/lucamazzanti/shakespeare-pokemon/workflows/Build/badge.svg)
-![Release status](https://github.com/lucamazzanti/shakespeare-pokemon/workflows/Release/badge.svg)
+![build status](https://github.com/lucamazzanti/shakespeare-pokemon/workflows/build/badge.svg)
+![release status](https://github.com/lucamazzanti/shakespeare-pokemon/workflows/release/badge.svg)
+[![codecov](https://codecov.io/gh/lucamazzanti/shakespeare-pokemon/branch/main/graph/badge.svg?token=KYXB2QARGD)](https://codecov.io/gh/lucamazzanti/shakespeare-pokemon)
 
 > What if the description of each Pokemon were to be written using Shakespeare's style?
 
@@ -26,12 +27,8 @@ Output:
 }
 ```
 
-## Prerequisites
-- [.NET SDK 5.0](https://dotnet.microsoft.com/download ".NET SDK 5.0")
-- Docker client 18.03 or later ([CentOS](https://docs.docker.com/install/linux/docker-ce/centos/ "CentOS"), [Debian](https://docs.docker.com/install/linux/docker-ce/debian/ "Debian"), [Fedora](https://docs.docker.com/install/linux/docker-ce/fedora/ "Fedora"), [Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/ "Ubuntu"), [macOS](https://docs.docker.com/docker-for-mac/install/ "macOS"), [Windows](https://docs.docker.com/docker-for-windows/install/ "Windows"))
-- [Git](https://git-scm.com/download "Git")
+## How to run
 
-## How to run from Docker Hub
 Download the Linux image from Docker Hub and run it:
 
 ```bash?line_numbers=false
@@ -41,7 +38,15 @@ docker run -it --rm -p 5000:80 --name shakespeare-pokemon-api shakespearepokemon
 
 See [here](https://hub.docker.com/repository/docker/lmazzanti/shakespearepokemonapi) for more details.
 
-## How to build and run
+## How to build
+Here the steps to build and run locally the program.
+
+### Prerequisites
+- [.NET SDK 5.0](https://dotnet.microsoft.com/download ".NET SDK 5.0")
+- Docker client 18.03 or later ([CentOS](https://docs.docker.com/install/linux/docker-ce/centos/ "CentOS"), [Debian](https://docs.docker.com/install/linux/docker-ce/debian/ "Debian"), [Fedora](https://docs.docker.com/install/linux/docker-ce/fedora/ "Fedora"), [Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/ "Ubuntu"), [macOS](https://docs.docker.com/docker-for-mac/install/ "macOS"), [Windows](https://docs.docker.com/docker-for-windows/install/ "Windows"))
+- [Git](https://git-scm.com/download "Git")
+
+### Download source code
 Download the source manually or clone the Git repository:
 ```bash?line_numbers=false
 git clone https://github.com/lucamazzanti/shakespeare-pokemon
@@ -107,14 +112,7 @@ The project was developed using the github management lifecycle, see [here](http
 - https://pokeapi.co/
 - https://funtranslations.com/api/shakespeare
 
-## Improvements
-See all the tasks in todo, here the missing steps:
-- Continuous integration in GitHub actions
-- Deploy on Docker Hub at the end of CI\CD
-- healthcheks for service discovery and docker
-- telemetry for kubernetes
-
-### Troubleshooting
+## Troubleshooting
 Before open an issue or contact me, please check these useful resources:
 - [ASP NET Core](https://docs.microsoft.com/en-us/aspnet/core/fundamentals "ASP NET Core")
 - [ASP.NET Core Runtime](https://hub.docker.com/_/microsoft-dotnet-aspnet "ASP.NET Core Runtime")
