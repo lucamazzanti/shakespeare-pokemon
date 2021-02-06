@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: Build
 on:
   push:
     branches: [ main ]
@@ -22,7 +22,12 @@ jobs:
     - name: Build in Debug
       run: dotnet build -property:Version=$VERSION --configuration Debug --no-restore
     - name: Test
-      run: dotnet test --no-restore --no-build --verbosity normal --filter "TestCategory=Unit"
+      run: dotnet test --no-restore --no-build --verbosity normal --filter "TestCategory=Unit" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: $
+        file: /home/runner/work/shakespeare-pokemon/ShakespearePokemon.Tests/coverage.opencover.xml
     - name: Build in Release
       run: dotnet build -property:Version=$VERSION --configuration Release --no-restore
     - name: Publish
