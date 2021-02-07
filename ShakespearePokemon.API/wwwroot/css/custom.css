@@ -1,0 +1,95 @@
+﻿a {
+    color: #e14278;
+}
+
+a:hover {
+    color: #ed8eae;
+}
+
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+    color: #FFF;
+    background-color: #DE2B67;
+    border-color: #DE2B67;
+}
+
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+    color: #FFF;
+    background-color: #e14278;
+    border-color: #e14278;
+}
+
+select:focus {
+    border: 1px solid #DE2B67;
+    outline: 0;
+}
+
+.logo {
+    width: 300px;
+    margin-bottom: 3rem;
+}
+
+.container {
+    max-width: 800px;
+    text-align: center;
+}
+
+.header {
+    margin-top: 3rem;
+}
+
+.value-prop {
+    margin-top: 1rem;
+}
+
+.value-props {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+
+.button-top-margin {
+    margin-top: 1rem;
+}
+
+.value-img {
+    display: block;
+    text-align: center;
+    margin: 2.5rem auto 0;
+}
+
+/* Larger than phone */
+@media (min-width: 550px) {
+
+    .header {
+        margin-top: 6rem;
+    }
+
+    .logo {
+        margin-bottom: 0;
+    }
+
+    .value-img {
+        margin-bottom: 1rem;
+    }
+}
+
+.button.disabled, 
+.button.disabled:hover, 
+.button.disabled:focus {
+    background: #ccc;
+    border-color: #ccc;
+    text-shadow: none;
+    cursor: default;
+}

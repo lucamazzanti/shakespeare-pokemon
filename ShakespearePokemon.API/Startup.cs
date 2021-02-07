@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -86,7 +87,7 @@ namespace ShakespearePokemon.API
             {
                 c.DocumentTitle = "Shakespeare Pokemon REST API";
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                c.RoutePrefix = string.Empty;
+                c.RoutePrefix = "swagger";
             });
 
 			// add healthcheck
@@ -99,6 +100,14 @@ namespace ShakespearePokemon.API
             {
 	            config.UIPath = "/health-ui";
             });
+
+			// add static landing page
+            app.UseDefaultFiles(new DefaultFilesOptions
+            {
+	            DefaultFileNames = new List<string> { "index.html" }
+            });
+
+            app.UseStaticFiles();
 
 			app.UseHttpsRedirection();
 
