@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using ShakespearePokemon.API.Services.Pokemon.Contracts;
 using System;
 using System.IO;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShakespearePokemon.API.Services.Pokemon.Client
 {
-    public class PokemonClient : IPokemonClient
+	public class PokemonClient : IPokemonClient
     {
         private readonly HttpClient _httpClient;
 

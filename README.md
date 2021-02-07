@@ -8,8 +8,7 @@
 [![Microsoft Naming Guidelines](https://img.shields.io/badge/code%20style-Microsoft-brightgreen.svg?style=flat)](https://www.jetbrains.com/help/resharper/2020.3/InconsistentNaming.html "Microsoft codestyle")
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Flucamazzanti%2Fshakespeare-pokemon&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 [![license: GPL v3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-<!-- badge not working, validation yes -->
-<!-- ![Known Vulnerabilities](https://snyk.io/test/github/lucamazzanti/shakespeare-pokemon/badge.svg?targetFile=ShakespearePokemon.API.csproj) -->
+[![Known Vulnerabilities](https://snyk.io/test/github/lucamazzanti/shakespeare-pokemon/badge.svg?targetFile=ShakespearePokemon.API/ShakespearePokemon.API.csproj)](https://snyk.io/test/github/lucamazzanti/shakespeare-pokemon?targetFile=ShakespearePokemon.API/ShakespearePokemon.API.csproj)
 
 ![shakespeare-pokemon-logo](https://github.com/lucamazzanti/shakespeare-pokemon/blob/main/.docs/pokemon-shakespeare-small.png)
 
