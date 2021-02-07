@@ -19,4 +19,5 @@ RUN dotnet publish "ShakespearePokemon.API.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+HEALTHCHECK --interval=2s --timeout=3s --retries=1 CMD curl --silent --fail http://localhost:80/health || exit 1
 ENTRYPOINT ["dotnet", "ShakespearePokemon.API.dll"]

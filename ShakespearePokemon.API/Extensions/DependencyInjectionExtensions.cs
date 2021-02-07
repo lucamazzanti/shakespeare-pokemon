@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Polly;
 using Polly.Caching;
 using Polly.Caching.Memory;
@@ -9,6 +10,9 @@ using ShakespearePokemon.API.Services.Shakespeare;
 using ShakespearePokemon.API.Services.Shakespeare.Client;
 using ShakespearePokemon.API.Services.ShakespearePokemon;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
@@ -87,5 +91,46 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return services;
         }
-    }
+
+		// business services healthchecks
+		public static IHealthChecksBuilder AddApplicationHealthChecks(this IHealthChecksBuilder healthChecksBuilder, IConfiguration configuration)
+		{
+			healthChecksBuilder.AddUrlGroup(new Uri(configuration["API:Pokemon:Url"]),
+				name: "pokemon-api", tags: new[] {"API"});
+
+			healthChecksBuilder.AddUrlGroup(new Uri(configuration["API:Shakespeare:Url"]),
+				name: "shakespeare-api", tags: new[] { "API" });
+
+			return healthChecksBuilder;
+        }
+
+		// it seems not working the relative uri path to map the same process, this not a useful setup but for that example i will setup up as relative
+		public static void AddLocalHealthCheckEndpoint(this HealthChecks.UI.Configuration.Settings settings, string name, string path, bool addHttp, bool addHttps)
+		{
+			var urls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")?.Split(';');
+			if (urls == null || urls.Length == 0) return;
+
+			var uris = urls
+				.Select(url => Regex.Replace(url, 
+					@"^(?<scheme>https?):\/\/((\+)|(\*)|(0.0.0.0))(?=[\:\/]|$)", 
+					"${scheme}://localhost"))
+				.Select(uri => new Uri(uri, UriKind.Absolute))
+				.ToArray();
+
+			var httpEndpoint = uris.FirstOrDefault(uri => uri.Scheme == "http");
+
+			// Create an HTTP healthcheck endpoint
+			if (httpEndpoint != null && addHttp) 
+			{
+				settings.AddHealthCheckEndpoint($"{name} HTTP", new UriBuilder(httpEndpoint.Scheme, httpEndpoint.Host, httpEndpoint.Port, path).ToString());
+			}
+
+			// Create an HTTPS healthcheck endpoint
+			var httpsEndpoint = uris.FirstOrDefault(uri => uri.Scheme == "https");
+			if (httpsEndpoint != null && addHttps) 
+			{
+				settings.AddHealthCheckEndpoint($"{name} SSL", new UriBuilder(httpsEndpoint.Scheme, httpsEndpoint.Host, httpsEndpoint.Port, path).ToString());
+			}
+		}
+	}
 }

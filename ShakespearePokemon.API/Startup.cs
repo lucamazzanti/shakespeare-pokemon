@@ -1,14 +1,19 @@
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ShakespearePokemon.API
 {
-    public class Startup
+	public class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -20,8 +25,8 @@ namespace ShakespearePokemon.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // client caching policies
-            services.AddResponseCaching();
+	        // client caching policies
+			services.AddResponseCaching();
 
             // server caching policies
             // for small amount of memory or sticky sessions
@@ -54,6 +59,19 @@ namespace ShakespearePokemon.API
 
             // add all the business services
             services.AddApplicationServices(Configuration);
+
+			// add healthchecks
+			services.AddHealthChecks()
+				// business checks
+				.AddApplicationHealthChecks(Configuration)
+				// limit to 500Mb memory
+				.AddPrivateMemoryHealthCheck(500_000_000L)
+				.AddWorkingSetHealthCheck(500_000_000L);
+
+			services.AddHealthChecksUI(setup =>
+			{
+				setup.AddLocalHealthCheckEndpoint("Shakespeare Pokemon API", "/health", true, false);
+			}).AddInMemoryStorage();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +89,18 @@ namespace ShakespearePokemon.API
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseHttpsRedirection();
+			// add healthcheck
+            app.UseHealthChecks("/health", new HealthCheckOptions
+            {
+				Predicate = _ => true,
+				ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+			});
+            app.UseHealthChecksUI(config =>
+            {
+	            config.UIPath = "/health-ui";
+            });
+
+			app.UseHttpsRedirection();
 
             app.UseRouting();
 
