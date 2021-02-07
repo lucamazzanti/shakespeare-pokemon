@@ -49,6 +49,10 @@ docker run -d -p 5000:80 -e "API:Shakespeare:AuthenticationToken=xxxx" --name sh
 
 Go to http://localhost:5000 in a browser to test the app.
 
+![landing-page](https://github.com/lucamazzanti/shakespeare-pokemon/blob/main/.docs/screenshot-landing-page-small.png)
+
+Go to the Swagger API link to read the examples.
+
 See [Docker Hub repository](https://hub.docker.com/repository/docker/lmazzanti/shakespearepokemonapi/) for more details.
 
 See [Docker run command](https://docs.docker.com/engine/reference/run/) form more details on how to run it.
