@@ -38,7 +38,7 @@ Download the Linux image from [Docker Hub](https://hub.docker.com/) and run it:
 
 ```bash?line_numbers=false
 docker pull lmazzanti/shakespeare-pokemon
-docker run -d -p 5000:80 --name shakespeare-pokemon shakespeare-pokemon
+docker run -d -p 5000:80 --name shakespeare-pokemon lmazzanti/shakespeare-pokemon
 ```
 
 If you have an authentication token from [Fun Translations](https://funtranslations.com/api/shakespeare/) you can pass it as:
